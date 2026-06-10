@@ -1,22 +1,49 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
+import 'dart:math';
+
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+
 import 'package:runes/models/note.dart';
 
 class RunesData extends ChangeNotifier {
   static const _storageKey = 'runes_saved_notes';
 
+  bool _showWhatsNew = false;
+  bool get showWhatsNew => _showWhatsNew;
+
   // Name of save file
-  final List<Note> _notes = [Note("Welcome to Runes!\nThis is a hidden line.")];
+  final List<Note> _notes = [];
+
+  // DAILY MESSAGE
 
   late final String _sessionMessage;
-
-  NoteData() {
+  RunesData() { // Runs when the app is loaded
+    _initVersionCheck();
+    
     final messages = [
-      "Seek the wisdom of the ancients.",
+      "Seek the wisdom of your words.",
       "Every word carved is a memory saved.",
       "Let your thoughts flow like currents.",
       "The stars guide your ink today.",
+      "Today, you are the fates.",
+      "Write your story, one rune at a time.",
+      "In the silence, your thoughts speak.",
+      "Sip a brew and let your mind wander.",
+      "Each rune is a step on your journey.",
+      "The runes reveal what the heart whispers.",
+      "Don't let the day pass without leaving a mark.",
+      "Your thoughts are the true magic.",
+      "May your day be filled with inspiration and clarity.",
+      "Your story awaits!",
+      "Stay creative, stay curious.",
+      "Embrace the journey of self-discovery.",
+      "Curiosity is the key to unlocking new paths.",
+      "Fortune favors the bold, write your fortune today.",
+      "Runes hold the secrets of your soul, what will they reveal?",
+      "Runes are the language of the universe, speak your truth.",
+      "Embrace the past and forge your future!",
     ];
 
     final now = DateTime.now();
@@ -24,7 +51,44 @@ class RunesData extends ChangeNotifier {
 
     _sessionMessage = messages[seed % messages.length];
 
+    generatePrompt();
+
     _loadNotes();
+  }
+
+  // WRITE PROMPTS
+  final List<String> _prompts = [
+    "What's on your mind?",
+    "Write something small.",
+    "Capture a thought before it's gone.",
+    "Start with one idea.",
+    "What needs your attention?",
+    "Got any stories?",
+    "Turn a thought into story.",
+    "Begin anywhere and end somewhere.",
+    "What's worth remembering?",
+    "Put it into words.",
+    "Let it be messy.",
+    "One sentence is enough.",
+    "Write the thing you're avoiding.",
+    "Start with a fragment.",
+    "What's been repeating in your head?",
+    "Put your thoughts somewhere real.",
+    "Write without editing.",
+    "Just begin.",
+    "What matters right now?",
+    "Leave a trace of today.",
+  ];
+
+  String _currentPrompt = "";
+  String get currentPrompt => _currentPrompt;
+  
+  final _random = Random();
+
+  void generatePrompt() {
+    _currentPrompt = _prompts[_random.nextInt(_prompts.length)];
+
+    notifyListeners(); // Informs UI data is changed and needs to be rebuilt
   }
 
   Future<void> _loadNotes() async {
@@ -76,6 +140,8 @@ class RunesData extends ChangeNotifier {
             : null,
       ),
     );
+
+    generatePrompt();
 
     _saveNotes();
     notifyListeners();
@@ -162,6 +228,34 @@ class RunesData extends ChangeNotifier {
     _saveNotes();
     notifyListeners();
   }
+
+  Future<void> _initVersionCheck() async {
+  final prefs = await SharedPreferences.getInstance();
+  final lastVersion = prefs.getString("last_seen_version");
+
+  final info = await PackageInfo.fromPlatform();
+  final currentVersion = info.version;
+
+  if (lastVersion != currentVersion) {
+    _showWhatsNew = true; // or similar flag
+  }
+
+  await prefs.setString("last_seen_version", currentVersion);
+  }
+
+  void dismissWhatsNew() async {
+    _showWhatsNew = false;
+
+    final prefs = await SharedPreferences.getInstance();
+    final info = await PackageInfo.fromPlatform();
+
+    await prefs.setString("last_seen_version", info.version);
+
+    notifyListeners();
+
+  notifyListeners();
+}
+
 }
 
 // Dev Notes:

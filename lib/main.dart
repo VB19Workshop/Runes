@@ -1,7 +1,7 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:runes/state/note_data.dart';
+import 'package:runes/state/runes_data.dart';
 import 'package:runes/screens/runes_app.dart';
 
 //Not using google_fonts package here to avoid SDK incompatibilities
@@ -15,7 +15,7 @@ void main() {
     // This will add the root widget to rendering
     MultiProvider(
       // A widget that registers multiple dependency providers at once
-      providers: [ChangeNotifierProvider(create: (_) => NoteData())],
+      providers: [ChangeNotifierProvider(create: (_) => RunesData())],
       child: const MyApp(), // This is the object being wrapped by the providers
     ),
   );

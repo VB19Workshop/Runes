@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'package:runes/state/runes_data.dart';
 import 'package:runes/widgets/edit_note_field.dart';
+import 'package:runes/screens/whats_new.dart';
 
 // This is the screen controller widget
 class RunesApp extends StatefulWidget {
@@ -66,6 +68,14 @@ class _RunesAppState extends State<RunesApp> {
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
           child: Column(
             children: [
+
+            if (runeData.showWhatsNew)
+              WhatsNewScreen(
+                onClose: () {
+                  runeData.dismissWhatsNew();
+                },
+              ),
+
               Expanded(
                 child: notes.isEmpty
                     ? const Center(
@@ -285,7 +295,7 @@ class _RunesAppState extends State<RunesApp> {
                           color: Color.fromARGB(255, 243, 236, 252),
                         ),
                         decoration: InputDecoration(
-                          hintText: "What's on your mind?",
+                          hintText: runeData.currentPrompt,
                           hintStyle: const TextStyle(
                             color: Color.fromARGB(120, 191, 175, 212),
                           ),
