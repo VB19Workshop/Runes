@@ -1,8 +1,8 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:Runes/state/note_data.dart';
-import 'package:Runes/screens/runes_app.dart';
+import 'package:runes/state/note_data.dart';
+import 'package:runes/screens/runes_app.dart';
 
 //Not using google_fonts package here to avoid SDK incompatibilities
 
