@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math';
-import 'package:Runes/models/note.dart';
+import 'package:runes/models/note.dart';
 
 class NoteData extends ChangeNotifier {
   static const _storageKey = 'runes_saved_notes';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:Runes/state/note_data.dart';
-import 'package:Runes/widgets/edit_note_field.dart';
+import 'package:runes/state/note_data.dart';
+import 'package:runes/widgets/edit_note_field.dart';
 
 // This is the screen controller widget
 class RunesApp extends StatefulWidget {
@@ -115,7 +115,6 @@ class _RunesAppState extends State<RunesApp> {
                                             style: const TextStyle(
                                               fontSize: 16,
                                               color: Color(0xFFF4ECFF),
-                                              fontFamily: 'Georgia',
                                             ),
                                           ),
                                         )
@@ -179,7 +178,6 @@ class _RunesAppState extends State<RunesApp> {
                                                           color: Color(
                                                             0xFFF4ECFF,
                                                           ),
-                                                          fontFamily: 'Georgia',
                                                         ),
                                                       ),
                                                     ),
@@ -194,7 +192,6 @@ class _RunesAppState extends State<RunesApp> {
                                             style: const TextStyle(
                                               fontSize: 16,
                                               color: Color(0xFFF4ECFF),
-                                              fontFamily: 'Georgia',
                                             ),
                                           ),
                                         const SizedBox(height: 8),
