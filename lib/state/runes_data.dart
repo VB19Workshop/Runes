@@ -1,27 +1,29 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:math';
 import 'package:runes/models/note.dart';
 
-class NoteData extends ChangeNotifier {
+class RunesData extends ChangeNotifier {
   static const _storageKey = 'runes_saved_notes';
 
   // Name of save file
   final List<Note> _notes = [Note("Welcome to Runes!\nThis is a hidden line.")];
 
-  late final String
-  _sessionMessage; // This will get set later and is the daily message shown
+  late final String _sessionMessage;
 
-  // This constructor handles setting the sessionMessage
   NoteData() {
-    final List<String> dailyMessages = [
+    final messages = [
       "Seek the wisdom of the ancients.",
       "Every word carved is a memory saved.",
       "Let your thoughts flow like currents.",
       "The stars guide your ink today.",
     ];
-    _sessionMessage = dailyMessages[Random().nextInt(dailyMessages.length)];
+
+    final now = DateTime.now();
+    final seed = now.year * 1000 + now.dayOfYear;
+
+    _sessionMessage = messages[seed % messages.length];
+
     _loadNotes();
   }
 
@@ -166,3 +168,10 @@ class NoteData extends ChangeNotifier {
 // Async means you're not waiting for it but it runs function in background
 // Future means the function finishes later
 // _variable is a private variable. variable is a public variable.
+
+extension DateHelpers on DateTime {
+  int get dayOfYear {
+    final start = DateTime(year, 1, 1);
+    return difference(start).inDays;
+  }
+}

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:runes/state/note_data.dart';
+import 'package:runes/state/runes_data.dart';
 import 'package:runes/widgets/edit_note_field.dart';
 
 // This is the screen controller widget
@@ -22,8 +22,8 @@ class _RunesAppState extends State<RunesApp> {
 
   @override
   Widget build(BuildContext context) {
-    final noteData = Provider.of<NoteData>(context);
-    final notes = noteData.notes;
+    final runeData = Provider.of<RunesData>(context);
+    final notes = runeData.notes;
     final isEditingAnyNote = notes.any((n) => n.isEditing);
 
     return Scaffold(
@@ -49,7 +49,7 @@ class _RunesAppState extends State<RunesApp> {
               ),
               const SizedBox(height: 4),
               Text(
-                noteData.randomMessage,
+                runeData.randomMessage,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 12,
@@ -99,7 +99,7 @@ class _RunesAppState extends State<RunesApp> {
                                 borderRadius: BorderRadius.circular(16),
                                 onTap: note.isEditing
                                     ? null
-                                    : () => noteData.toggleExpansion(index),
+                                    : () => runeData.toggleExpansion(index),
 
                                 child: Padding(
                                   padding: const EdgeInsets.all(12.0),
@@ -130,13 +130,13 @@ class _RunesAppState extends State<RunesApp> {
                                           isChecklist: note.isChecklist,
                                           initialChecks: note.checks,
                                           onSave: (newText, updatedChecks) =>
-                                              noteData.updateNote(
+                                              runeData.updateNote(
                                                 index,
                                                 newText,
                                                 updatedChecks,
                                               ),
                                           onCancel: () =>
-                                              noteData.toggleEditing(index),
+                                              runeData.toggleEditing(index),
                                         )
 
                                       else ...[
@@ -154,7 +154,7 @@ class _RunesAppState extends State<RunesApp> {
                                                     Checkbox(
                                                       value: note.checks[itemIndex],
                                                       onChanged: (_) =>
-                                                          noteData.toggleCheck(index, itemIndex),
+                                                          runeData.toggleCheck(index, itemIndex),
                                                       activeColor: const Color(0xFF574571),
                                                     ),
                                                     const SizedBox(width: 8),
@@ -201,7 +201,7 @@ class _RunesAppState extends State<RunesApp> {
                                                 IconButton(
                                                   tooltip: 'Move Up',
                                                   onPressed: index > 0
-                                                      ? () => noteData.moveNote(index, index - 1)
+                                                      ? () => runeData.moveNote(index, index - 1)
                                                       : null,
                                                   icon: Icon(
                                                     Icons.arrow_upward,
@@ -213,7 +213,7 @@ class _RunesAppState extends State<RunesApp> {
                                                 IconButton(
                                                   tooltip: 'Move Down',
                                                   onPressed: index < notes.length - 1
-                                                      ? () => noteData.moveNote(index, index + 1)
+                                                      ? () => runeData.moveNote(index, index + 1)
                                                       : null,
                                                   icon: Icon(
                                                     Icons.arrow_downward,
@@ -232,14 +232,14 @@ class _RunesAppState extends State<RunesApp> {
                                                 IconButton(
                                                   tooltip: 'Edit',
                                                   onPressed: () =>
-                                                      noteData.toggleEditing(index),
+                                                      runeData.toggleEditing(index),
                                                   icon: const Icon(Icons.edit,
                                                       color: Color(0xFFF4ECFF)),
                                                 ),
                                                 IconButton(
                                                   tooltip: 'Delete',
                                                   onPressed: () =>
-                                                      noteData.removeNote(index),
+                                                      runeData.removeNote(index),
                                                   icon: const Icon(Icons.delete,
                                                       color: Color(0xFFF4ECFF)),
                                                 ),
@@ -305,7 +305,7 @@ class _RunesAppState extends State<RunesApp> {
                       width: 52,
                       child: ElevatedButton(
                         onPressed: () {
-                          noteData.addNote(_controller.text);
+                          runeData.addNote(_controller.text);
                           _controller.clear();
                         },
                         child: const Icon(Icons.send),
