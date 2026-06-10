@@ -129,6 +129,19 @@ class _EditNoteFieldState extends State<EditNoteField> {
 
   @override
   Widget build(BuildContext context) {
+    final textStyle = Theme.of(context).textTheme.bodyMedium?.copyWith(
+          color: const Color(0xFFF4ECFF),
+        );
+
+    const inputDecoration = InputDecoration(
+      isDense: true,
+      contentPadding: EdgeInsets.zero,
+      filled: false,
+      border: InputBorder.none,
+      enabledBorder: InputBorder.none,
+      focusedBorder: InputBorder.none,
+    );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -137,6 +150,7 @@ class _EditNoteFieldState extends State<EditNoteField> {
             children: _controllers.asMap().entries.map((entry) {
               final itemIndex = entry.key;
               final controller = entry.value;
+
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),
                 child: Row(
@@ -154,25 +168,17 @@ class _EditNoteFieldState extends State<EditNoteField> {
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),
+
                     const SizedBox(width: 8),
+
                     Expanded(
                       child: TextField(
                         controller: controller,
                         focusNode: _focusNodes[itemIndex],
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFFF4ECFF),
-                          fontFamily: 'Georgia',
-                        ),
-                        textAlignVertical: TextAlignVertical.center,
+                        style: TextStyle(fontSize: 16, color: Color(0xFFF4ECFF)),
                         cursorColor: const Color(0xFFD9C4FF),
-                        decoration: const InputDecoration(
-                          filled: true,
-                          fillColor: Colors.transparent,
-                          border: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                        ),
+                        textAlignVertical: TextAlignVertical.center,
+                        decoration: inputDecoration,
                         minLines: 1,
                         maxLines: 3,
                         onChanged: (value) =>
@@ -187,23 +193,16 @@ class _EditNoteFieldState extends State<EditNoteField> {
         else
           TextField(
             controller: _singleController,
-            style: const TextStyle(
-              fontSize: 16,
-              color: Color(0xFFF4ECFF),
-              fontFamily: 'Georgia',
-            ),
+            style: TextStyle(fontSize: 16, color: Color(0xFFF4ECFF)),
             cursorColor: const Color(0xFFD9C4FF),
-            decoration: const InputDecoration(
-              filled: true,
-              fillColor: Colors.transparent,
-              border: InputBorder.none,
-              enabledBorder: InputBorder.none,
-              focusedBorder: InputBorder.none,
-            ),
+            textAlignVertical: TextAlignVertical.top,
+            decoration: inputDecoration,
             minLines: 1,
-            maxLines: 6,
+            maxLines: 12,
           ),
+
         const SizedBox(height: 12),
+
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [

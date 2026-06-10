@@ -61,6 +61,7 @@ class NoteData extends ChangeNotifier {
 
   // Ensures NoteData isn't modified directly
   List<Note> get notes => List.unmodifiable(_notes);
+  
 
   void addNote(String text, {bool asChecklist = false}) {
     if (text.trim().isEmpty) return;
@@ -107,6 +108,16 @@ class NoteData extends ChangeNotifier {
     } else {
       note.checks = <bool>[];
     }
+
+    _saveNotes();
+    notifyListeners();
+  }
+
+  void moveNote(int oldIndex, int newIndex) {
+    if (newIndex < 0 || newIndex >= _notes.length) return;
+
+    final note = _notes.removeAt(oldIndex);
+    _notes.insert(newIndex, note);
 
     _saveNotes();
     notifyListeners();
