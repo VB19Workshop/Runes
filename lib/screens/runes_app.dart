@@ -25,10 +25,10 @@ class _RunesAppState extends State<RunesApp> {
     final noteData = Provider.of<NoteData>(context);
 
     return Scaffold(
-      backgroundColor: const Color(0xFF3D3A5B),
+      backgroundColor: const Color.fromARGB(255, 82, 69, 100),
       appBar: AppBar(
         toolbarHeight: 132,
-        backgroundColor: const Color(0xFF3D3A5B),
+        backgroundColor: const Color.fromARGB(255, 82, 69, 100),
         centerTitle: true,
         elevation: 0,
         title: Padding(
@@ -52,11 +52,7 @@ class _RunesAppState extends State<RunesApp> {
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 12,
-                  color: Color(0xFFD9C4FF),
-                  shadows: [
-                    Shadow(color: Color(0x80B59CFF), blurRadius: 10),
-                    Shadow(color: Color(0x40B59CFF), blurRadius: 20),
-                  ],
+                  color: Color.fromARGB(255, 191, 175, 212),
                 ),
               ),
             ],
@@ -84,9 +80,9 @@ class _RunesAppState extends State<RunesApp> {
                           return Container(
                             margin: const EdgeInsets.symmetric(vertical: 6),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF3D3A5B),
+                              color: const Color.fromARGB(255, 67, 55, 83),
                               border: Border.all(
-                                color: const Color(0xFF716F8F),
+                                color: const Color.fromARGB(207, 191, 175, 212),
                                 width: 1.2,
                               ),
                               borderRadius: BorderRadius.circular(16),
@@ -158,7 +154,7 @@ class _RunesAppState extends State<RunesApp> {
                                                             itemIndex,
                                                           ),
                                                       activeColor: const Color(
-                                                        0xFF9F8FE9,
+                                                        0xFF574571,
                                                       ),
                                                       shape: RoundedRectangleBorder(
                                                         borderRadius:
@@ -252,28 +248,32 @@ class _RunesAppState extends State<RunesApp> {
                   Expanded(
                     child: TextField(
                       controller: _controller,
-                      style: const TextStyle(color: Color(0xFFF4ECFF)),
+                      style: const TextStyle(
+                        color: Color.fromARGB(255, 243, 236, 252),
+                      ),
                       decoration: InputDecoration(
                         hintText: "What's on your mind?",
-                        hintStyle: const TextStyle(color: Color(0xFFD9C4FF)),
+                        hintStyle: const TextStyle(
+                          color: Color.fromARGB(120, 191, 175, 212),
+                        ),
                         filled: true,
-                        fillColor: const Color(0xFF302F50),
+                        fillColor: const Color.fromARGB(255, 38, 33, 44),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: const BorderSide(
-                            color: Color(0xFF716F8F),
+                            color: Color.fromARGB(207, 191, 175, 212),
                           ),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: const BorderSide(
-                            color: Color(0xFF716F8F),
+                            color: Color.fromARGB(207, 191, 175, 212),
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: const BorderSide(
-                            color: Color(0xFF716F8F),
+                            color: Color.fromARGB(207, 191, 175, 212),
                             width: 2,
                           ),
                         ),
@@ -292,14 +292,19 @@ class _RunesAppState extends State<RunesApp> {
                         _controller.clear();
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF3D3A5B),
+                        backgroundColor: const Color.fromARGB(255, 38, 33, 44),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
                         ),
-                        side: const BorderSide(color: Color(0xFF716F8F)),
+                        side: const BorderSide(
+                          color: Color.fromARGB(207, 191, 175, 212),
+                        ),
                         padding: EdgeInsets.zero,
                       ),
-                      child: const Icon(Icons.send, color: Color(0xFFEDE8FF)),
+                      child: const Icon(
+                        Icons.send,
+                        color: Color.fromARGB(255, 237, 232, 255),
+                      ),
                     ),
                   ),
                 ],
