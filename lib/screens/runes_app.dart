@@ -243,7 +243,7 @@ class _RunesAppState extends State<RunesApp> {
                                                   icon: const Icon(Icons.delete,
                                                       color: Color(0xFFF4ECFF)),
                                                 ),
-                                                IconButton(
+                                                /*IconButton(
                                                   tooltip: 'Toggle mode',
                                                   onPressed: () =>
                                                       noteData.toggleChecklistMode(index),
@@ -253,7 +253,7 @@ class _RunesAppState extends State<RunesApp> {
                                                         : Icons.check_box_outline_blank,
                                                     color: const Color(0xFFF4ECFF),
                                                   ),
-                                                ),
+                                                ),*/
                                               ],
                                             ),
                                           ],
