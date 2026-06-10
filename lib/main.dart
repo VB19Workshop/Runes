@@ -1,7 +1,8 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:runes/state/note_data.dart';
-import 'package:runes/screens/runes_app.dart';
+import 'package:Runes/state/note_data.dart';
+import 'package:Runes/screens/runes_app.dart';
 
 //Not using google_fonts package here to avoid SDK incompatibilities
 
@@ -35,7 +36,10 @@ class MyApp extends StatelessWidget {
   @override // Tells the engine we're going to replace the parent class method with our own
   Widget build(BuildContext context) {
     // This builds and returns the UI to be rendered
-    return const MaterialApp(home: RunesApp()); // Starts the app on this screen
+    return MaterialApp(
+      theme: ThemeData(textTheme: GoogleFonts.firaCodeTextTheme()),
+      home: RunesApp(), // Starts the app on this screen
+    );
   }
 }
 

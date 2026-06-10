@@ -8,6 +8,7 @@ class EditNoteField extends StatefulWidget {
   final VoidCallback onCancel;
 
   const EditNoteField({
+    super.key,
     required this.initialText,
     required this.isChecklist,
     required this.initialChecks,

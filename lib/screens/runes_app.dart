@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:runes/state/note_data.dart';
-import 'package:runes/widgets/edit_note_field.dart';
+import 'package:Runes/state/note_data.dart';
+import 'package:Runes/widgets/edit_note_field.dart';
 
 // This is the screen controller widget
 class RunesApp extends StatefulWidget {
@@ -36,6 +36,7 @@ class _RunesAppState extends State<RunesApp> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              // TITLE
               const Text(
                 'Runes',
                 style: TextStyle(
@@ -44,11 +45,7 @@ class _RunesAppState extends State<RunesApp> {
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 4),
-              const Text(
-                'Transcribe your way',
-                style: TextStyle(fontSize: 14, color: Color(0xFFEDE8FF)),
-              ),
+              // DAILY MESSAGE
               const SizedBox(height: 4),
               Text(
                 noteData.randomMessage,
