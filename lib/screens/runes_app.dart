@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:runes/state/runes_data.dart';
+import 'package:runes/models/runes_theme.dart';
 import 'package:runes/widgets/edit_note_field.dart';
 import 'package:runes/screens/whats_new.dart';
 
@@ -18,7 +19,7 @@ class _RunesAppState extends State<RunesApp> {
 
   @override
   void dispose() {
-    _controller.dispose();
+  _controller.dispose();
     super.dispose();
   }
 
@@ -27,13 +28,15 @@ class _RunesAppState extends State<RunesApp> {
     final runeData = Provider.of<RunesData>(context);
     final notes = runeData.notes;
     final isEditingAnyNote = notes.any((n) => n.isEditing);
+    final theme = context.watch<RunesData>().currentTheme;
 
+    // UI Visuals
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 82, 69, 100),
+      backgroundColor: theme.background,
 
       appBar: AppBar(
         toolbarHeight: 132,
-        backgroundColor: const Color.fromARGB(255, 82, 69, 100),
+        backgroundColor: theme.background,
         centerTitle: true,
         elevation: 0,
         title: Padding(
@@ -41,21 +44,21 @@ class _RunesAppState extends State<RunesApp> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
+               Text(
                 'Runes',
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
                   letterSpacing: 1.2,
-                  color: Colors.white,
+                  color: theme.text,
                 ),
               ),
               const SizedBox(height: 4),
               Text(
                 runeData.randomMessage,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12,
-                  color: Color.fromARGB(255, 191, 175, 212),
+                  color: theme.backgroundText,
                 ),
               ),
             ],
@@ -63,11 +66,26 @@ class _RunesAppState extends State<RunesApp> {
         ),
       ),
 
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-          child: Column(
-            children: [
+      body: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+
+        onHorizontalDragEnd: (details) {
+          final velocity = details.primaryVelocity ?? 0;
+
+          if (velocity > 0) {
+           context.read<RunesData>().nextTheme();
+           runeData.nextTheme();
+          } else if (velocity < 0) {
+            context.read<RunesData>().previousTheme();
+            runeData.previousTheme();
+          }
+        },
+
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+            child: Column(
+              children: [
 
             if (runeData.showWhatsNew)
               WhatsNewScreen(
@@ -78,12 +96,12 @@ class _RunesAppState extends State<RunesApp> {
 
               Expanded(
                 child: notes.isEmpty
-                    ? const Center(
+                    ?  Center(
                         child: Text(
                           'Get inspired and carve your ideas!',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Color.fromARGB(255, 191, 175, 212),
+                            color: theme.backgroundText,
                           ),
                         ),
                       )
@@ -95,9 +113,9 @@ class _RunesAppState extends State<RunesApp> {
                           return Container(
                             margin: const EdgeInsets.symmetric(vertical: 6),
                             decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 67, 55, 83),
+                              color: theme.noteBox,
                               border: Border.all(
-                                color: const Color.fromARGB(207, 191, 175, 212),
+                                color: theme.border,
                                 width: 1.2,
                               ),
                               borderRadius: BorderRadius.circular(16),
@@ -128,9 +146,9 @@ class _RunesAppState extends State<RunesApp> {
                                       if (!note.isExpanded)
                                         Text(
                                           note.previewLine,
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             fontSize: 16,
-                                            color: Color(0xFFF4ECFF),
+                                            color: theme.text,
                                           ),
                                         )
 
@@ -165,7 +183,7 @@ class _RunesAppState extends State<RunesApp> {
                                                       value: note.checks[itemIndex],
                                                       onChanged: (_) =>
                                                           runeData.toggleCheck(index, itemIndex),
-                                                      activeColor: const Color(0xFF574571),
+                                                      activeColor: theme.noteBox,
                                                     ),
                                                     const SizedBox(width: 8),
                                                     Expanded(
@@ -173,9 +191,9 @@ class _RunesAppState extends State<RunesApp> {
                                                         itemText.isEmpty
                                                             ? '(empty item)'
                                                             : itemText,
-                                                        style: const TextStyle(
+                                                        style: TextStyle(
                                                           fontSize: 16,
-                                                          color: Color(0xFFF4ECFF),
+                                                          color: theme.text,
                                                         ),
                                                       ),
                                                     ),
@@ -187,9 +205,9 @@ class _RunesAppState extends State<RunesApp> {
                                         else
                                           Text(
                                             note.text,
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               fontSize: 16,
-                                              color: Color(0xFFF4ECFF),
+                                              color: theme.text,
                                             ),
                                           ),
 
@@ -216,7 +234,7 @@ class _RunesAppState extends State<RunesApp> {
                                                   icon: Icon(
                                                     Icons.arrow_upward,
                                                     color: index > 0
-                                                        ? const Color(0xFFF4ECFF)
+                                                        ? theme.text
                                                         : const Color(0x20F4ECFF),
                                                   ),
                                                 ),
@@ -228,7 +246,7 @@ class _RunesAppState extends State<RunesApp> {
                                                   icon: Icon(
                                                     Icons.arrow_downward,
                                                     color: index < notes.length - 1
-                                                        ? const Color(0xFFF4ECFF)
+                                                        ? theme.text
                                                         : const Color(0x20F4ECFF),
                                                   ),
                                                 ),
@@ -291,16 +309,16 @@ class _RunesAppState extends State<RunesApp> {
                     Expanded(
                       child: TextField(
                         controller: _controller,
-                        style: const TextStyle(
-                          color: Color.fromARGB(255, 243, 236, 252),
+                        style: TextStyle(
+                          color: theme.text,
                         ),
                         decoration: InputDecoration(
                           hintText: runeData.currentPrompt,
-                          hintStyle: const TextStyle(
-                            color: Color.fromARGB(120, 191, 175, 212),
+                          hintStyle: TextStyle(
+                            color: theme.placeholderText,
                           ),
                           filled: true,
-                          fillColor: const Color.fromARGB(255, 38, 33, 44),
+                          fillColor: theme.promptBox,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),

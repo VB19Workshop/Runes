@@ -4,6 +4,20 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+// Load signing properties if a key.properties file exists at the android/ root
+val keystorePropertiesFile = rootProject.file("key.properties")
+val keystoreProperties = mutableMapOf<String, String>()
+if (keystorePropertiesFile.exists()) {
+    keystorePropertiesFile.forEachLine { line ->
+        if (!line.startsWith("#") && line.isNotEmpty()) {
+            val parts = line.split("=", limit = 2)
+            if (parts.size == 2) {
+                keystoreProperties[parts[0].trim()] = parts[1].trim()
+            }
+        }
+    }
+}
+
 android {
     namespace = "com.example.runes"
     compileSdk = flutter.compileSdkVersion
@@ -12,6 +26,17 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    if (keystorePropertiesFile.exists()) {
+        signingConfigs {
+            create("release") {
+                storeFile = File(keystorePropertiesFile.parentFile, keystoreProperties["storeFile"] ?: "")
+                storePassword = keystoreProperties["storePassword"]
+                keyAlias = keystoreProperties["keyAlias"]
+                keyPassword = keystoreProperties["keyPassword"]
+            }
+        }
     }
 
     defaultConfig {
@@ -29,7 +54,13 @@ android {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            isMinifyEnabled = false
+            isShrinkResources = false
+            if (keystorePropertiesFile.exists()) {
+                signingConfig = signingConfigs.getByName("release")
+            } else {
+                signingConfig = signingConfigs.getByName("debug")
+            }
         }
     }
 }

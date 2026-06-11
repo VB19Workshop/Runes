@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:runes/models/note.dart';
+import 'package:runes/models/runes_theme.dart';
 
 class RunesData extends ChangeNotifier {
   static const _storageKey = 'runes_saved_notes';
@@ -256,6 +257,16 @@ class RunesData extends ChangeNotifier {
   notifyListeners();
 }
 
+  int _themeIndex = 0;
+  RunesTheme get currentTheme => themes[_themeIndex];
+
+  void setTheme(int index) {
+    if (index < 0 || index >= themes.length) return;
+
+    _themeIndex = index;
+    notifyListeners();
+  }
+
 }
 
 // Dev Notes:
@@ -269,3 +280,4 @@ extension DateHelpers on DateTime {
     return difference(start).inDays;
   }
 }
+
