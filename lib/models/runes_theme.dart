@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 
-  final List<RunesTheme> themes = [
+
+class RunesThemeManager{
+
+  static final List<RunesTheme> themes = [
     tyrianTheme,
     kvasirTheme,
+    odinTheme,
+    solTheme,
+    helTheme,
   ];
+
+}
 
 class RunesTheme{
   final Color background;
@@ -17,9 +25,12 @@ class RunesTheme{
   final Color backgroundText;
   final Color placeholderText;
 
+  final String runeIcon;
+
   const RunesTheme({required this.background, required this.noteBox, required this.promptBox, 
                      required this.border, required this.secondaryBorder, 
-                     required this.text, required this.backgroundText, required this.placeholderText
+                     required this.text, required this.backgroundText, required this.placeholderText,
+                     required this.runeIcon
                    });
 
 }
@@ -55,6 +66,8 @@ class RunesTheme{
 
   // Placeholder text - very faded version for input hints
   placeholderText: Color.fromARGB(120, 191, 175, 212),
+  // Rune icon asset path
+  runeIcon: 'assets/runes/Tyrian.png',
 );
   
   const kvasirTheme = RunesTheme(
@@ -82,6 +95,8 @@ class RunesTheme{
 
   // Placeholder - faded gold
   placeholderText: Color.fromARGB(120, 212, 170, 80),
+  // Rune icon asset path
+  runeIcon: 'assets/runes/Kvasir.png',
 );
 
 const odinTheme = RunesTheme(
@@ -110,6 +125,8 @@ const odinTheme = RunesTheme(
 
   // Placeholder text - faint mineral fog
   placeholderText: Color.fromARGB(120, 120, 160, 200),
+  // Rune icon asset path
+  runeIcon: 'assets/runes/Odin.png',
 );
 
 const solTheme = RunesTheme(
@@ -140,6 +157,8 @@ const solTheme = RunesTheme(
 
   // Placeholder text - very faded ember tone
   placeholderText: Color.fromARGB(120, 230, 184, 92),
+  // Rune icon asset path
+  runeIcon: 'assets/runes/Sol.png',
 );
 
 const helTheme = RunesTheme(
@@ -169,4 +188,6 @@ const helTheme = RunesTheme(
 
   // Placeholder text - very faint grey fog
   placeholderText: Color.fromARGB(120, 140, 140, 140),
+  // Rune icon asset path
+  runeIcon: 'assets/runes/Hel.png',
 );

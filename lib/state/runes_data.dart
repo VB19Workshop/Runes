@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -121,6 +122,14 @@ class RunesData extends ChangeNotifier {
     await prefs.setString(_storageKey, encoded);
 
     // Doesn't notifyListeners since UI doesn't change
+  }
+
+  Future<void> _loadCurrentTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    final themeIndex = prefs.getInt(_currentThemeKey);
+    if (themeIndex != null) {
+      _themeIndex = themeIndex;
+    }
   }
 
   // This make the private variables public
@@ -253,18 +262,33 @@ class RunesData extends ChangeNotifier {
     await prefs.setString("last_seen_version", info.version);
 
     notifyListeners();
-
-  notifyListeners();
 }
 
+  static const _currentThemeKey = 'runes_current_theme';
+
   int _themeIndex = 0;
+
+  final List<RunesTheme> themes = RunesThemeManager.themes;
   RunesTheme get currentTheme => themes[_themeIndex];
 
-  void setTheme(int index) {
-    if (index < 0 || index >= themes.length) return;
+  void nextTheme() {
+    _themeIndex = (_themeIndex + 1) % themes.length;
 
-    _themeIndex = index;
+    _saveCurrentTheme();
     notifyListeners();
+  }
+
+  void previousTheme() {
+    _themeIndex =
+        (_themeIndex - 1 + themes.length) % themes.length;
+
+    _saveCurrentTheme();
+    notifyListeners();
+  }
+
+  Future<void> _saveCurrentTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(_currentThemeKey, _themeIndex);
   }
 
 }

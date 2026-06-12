@@ -29,7 +29,7 @@ class _RunesAppState extends State<RunesApp> {
     final notes = runeData.notes;
     final isEditingAnyNote = notes.any((n) => n.isEditing);
     final theme = context.watch<RunesData>().currentTheme;
-
+    
     // UI Visuals
     return Scaffold(
       backgroundColor: theme.background,
@@ -44,13 +44,24 @@ class _RunesAppState extends State<RunesApp> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-               Text(
-                'Runes',
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 1.2,
-                  color: theme.text,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    theme.runeIcon, 
+                    height: 24,
+                    key: ValueKey(theme.runeIcon)
+                    ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Runes',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1.2,
+                      color: theme.text,
+                    ),
+                  )
+                ]
               ),
               const SizedBox(height: 4),
               Text(
@@ -73,10 +84,8 @@ class _RunesAppState extends State<RunesApp> {
           final velocity = details.primaryVelocity ?? 0;
 
           if (velocity > 0) {
-           context.read<RunesData>().nextTheme();
-           runeData.nextTheme();
+            runeData.nextTheme();
           } else if (velocity < 0) {
-            context.read<RunesData>().previousTheme();
             runeData.previousTheme();
           }
         },
@@ -346,6 +355,7 @@ class _RunesAppState extends State<RunesApp> {
           ),
         ),
       ),
+      )
     );
   }
 }
